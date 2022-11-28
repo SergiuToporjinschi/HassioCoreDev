@@ -1,0 +1,11 @@
+send:
+  name: command
+  description: Sends a raw event on radio.
+  fields:
+    event:
+      name: Event
+      description: A binary string to send.
+      required: true
+      example: "11010111101"
+      selector:
+        text:

@@ -1,0 +1,17 @@
+DOMAIN = "rf_cover"
+
+PIN = "pin"
+REPEAT = "repeat"
+PAUSE = "pause"
+INIT = "init"
+LEN = "len"
+TIME = "time"
+SHORT = "short"
+LONG = "long"
+HIGH = "high"
+LOW = "low"
+BIT = "bit"
+
+SERVICE_NAME = "sendCommand"
+SERVICE_PAYLOAD_NAME = "command"
+SERVICE_STATE_NAME = DOMAIN + ".sending"
