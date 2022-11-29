@@ -1,4 +1,3 @@
-/config
 config2/*
 
 tests/testing_config/deps
@@ -131,3 +130,8 @@ tmp_cache
 
 # python-language-server / Rope
 .ropeproject
+/config/.*
+/config/*.db*
+/config/*.log*
+!config/*.yaml
+!**/custom_components/*

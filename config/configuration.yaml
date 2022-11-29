@@ -1,0 +1,46 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.cloud: debug
+
+# demo:
+
+rf_cover:
+  pin: 12
+  repeat: 3
+  pause: 8064
+  init:
+    len: 40
+    time:
+      high: 4117
+      low: 2024
+  bit:
+    time:
+      short: 338
+      long: 676
+
+cover:
+  - platform: rf_cover
+    code: "10000101 00110001 11111000 10110001"
+    name: "office"
+  - platform: rf_cover
+    code: "10000101 00110001 01010010 10000001"
+    name: "kitchen"
+# up: "00010001",
+# down: "00110011",
+# stop: "01010101"
