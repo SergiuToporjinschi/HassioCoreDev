@@ -1,15 +1,10 @@
 import logging
-import time
 
 from homeassistant import config_entries, core
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 
 from .const import *
-
-# from gpiozero import LED, DigitalInputDevice
-# from gpiozero.pins.pigpio import PiGPIOFactory
-
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -38,17 +33,15 @@ CONFIG_SCHEMA = vol.Schema({
 async def async_setup(hass: core.HomeAssistant, config: config_entries.ConfigEntry) -> bool:
     """Set up the RFCover component."""
     _LOGGER.info("rf_cover log %s", SERVICE_NAME)
-
     hass.data.setdefault(DOMAIN, {})
     hass.states.async_set(SERVICE_STATE_NAME, "False")
+    hass.data[DOMAIN]["rfConfig"] = config[DOMAIN]
     # hass.config_entries.async_update_entry(config, unique_id="sss")
     async def async_handle_sendCommand(call):
         """handle send command service"""
         command = call.data.get(SERVICE_PAYLOAD_NAME, None)
         ## TODO add send command
-
         hass.states.async_set(SERVICE_STATE_NAME, "True")
-        time.sleep(60)
         _LOGGER.info("Sending command %s", command)
         hass.states.async_set(SERVICE_STATE_NAME, "False")
 

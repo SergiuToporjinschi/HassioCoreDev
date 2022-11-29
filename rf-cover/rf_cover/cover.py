@@ -18,6 +18,7 @@ from homeassistant.helpers.typing import DiscoveryInfoType
 import voluptuous as vol
 
 from .const import *
+from .mixins import GPIOCon
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -32,22 +33,30 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         ): cv.string,
     }
 )
+async def async_setup(hass, config):
+    """Setup for cover"""
+    _LOGGER.debug("RFCover init ")
 
 async def async_setup_platform(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities: AddEntitiesCallback, discovery_info: DiscoveryInfoType) -> None:
-    _LOGGER.info("rf_cover log ")
+    """Setup for platform"""
+    _LOGGER.debug("rf_cover log ")
+    config = hass.data[DOMAIN].get("rfConfig")
     device_class = config_entry[CONF_DEVICE_CLASS]
     name = config_entry[CONF_NAME]
     code = config_entry[CONF_CODE]
     device_class = config_entry[CONF_DEVICE_CLASS]
-    async_add_entities([RFCover( code, name, device_class)], True)
+    async_add_entities([RFCover(config, code, name, device_class)], True)
+
 
 def send(hass: HomeAssistant, command: str) -> None:
+    """sends commands to GPIP via service"""
     hass.services.call(DOMAIN, SERVICE_NAME, {SERVICE_PAYLOAD_NAME: command}, True)
 
-class RFCover(CoverEntity):
-    def __init__(self, code, name, device_class) -> None:
+class RFCover(GPIOCon, CoverEntity):
+    """RF cover device"""
+    def __init__(self, config, code, name, device_class) -> None:
         """Initialize the cover device."""
-        super().__init__()
+        super().__init__(config)
         self._attr_supported_features = (
             CoverEntityFeature.OPEN | CoverEntityFeature.CLOSE | CoverEntityFeature.STOP
         )
@@ -58,20 +67,30 @@ class RFCover(CoverEntity):
         self._attr_code = code
         self._attr_device_class = device_class
         self._state = True
-        _LOGGER.info("RFCover init %s", self.name)
 
     async def async_open_cover(self, **kwargs: Any) -> None:
-        self.hass.add_job(send, self.hass, self._attr_code + " 00010001")
-
+        """Open shades"""
         _LOGGER.info("RFCover async_open_cover %s", self.name)
+        self.hass.async_add_job(self.send_open)
+        # self.send_open()
 
     async def async_close_cover(self, **kwargs: Any) -> None:
-        self.hass.add_job(send, self.hass, self._attr_code + " 00110011")
+        """Close shades"""
         _LOGGER.info("RFCover async_close_cover %s", self.name)
+        self.hass.async_add_job(self.send_close)
+        # self.send_close()
+        # self.hass.add_job(send, self.hass, self._attr_code + " 00110011")
 
     async def async_stop_cover(self, **kwargs: Any) -> None:
-        self.hass.add_job(send, self.hass, self._attr_code + " 01010101")
+        """Stops shades"""
         _LOGGER.info("RFCover async_stop_cover %s", self.name)
+        self.hass.async_add_job(self.send_stop)
+        # self.send_stop()
+        # self.hass.add_job(send, self.hass, self._attr_code + " 01010101")
+
+    def _get_code(self) -> str:
+        """Get shade code"""
+        return self._attr_code
 
     @property
     def name(self) -> str:
