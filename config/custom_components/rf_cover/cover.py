@@ -29,16 +29,33 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_CODE): cv.string,
         vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-        vol.Optional(
-            CONF_DEVICE_CLASS, default=CoverDeviceClass.SHADE
-        ): cv.string,
+        vol.Optional(CONF_DEVICE_CLASS, default=CoverDeviceClass.SHADE): cv.string,
     }
 )
-async def async_setup(hass, config):
-    """Setup for cover"""
-    _LOGGER.debug("RFCover init ")
 
-async def async_setup_platform(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities: AddEntitiesCallback, discovery_info: DiscoveryInfoType) -> None:
+
+async def async_setup_entry(
+    hass: HomeAssistant,
+    config_entry: ConfigEntry,
+    async_add_entities,
+):
+    """Setup sensors from a config entry created in the integrations UI."""
+    # Update our config to include new repos and remove those that have been removed.
+    config = hass.data[DOMAIN][config_entry.entry_id]
+    if config_entry.options:
+        config.update(config_entry.options)
+    name = config_entry.data.get(CONF_NAME)
+    code = config_entry.data.get(CONF_CODE)
+    device_class = config_entry[CONF_DEVICE_CLASS]
+    async_add_entities([RFCover(config, code, name, device_class)], True)
+
+
+async def async_setup_platform(
+    hass: HomeAssistant,
+    config_entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+    discovery_info: DiscoveryInfoType,
+) -> None:
     """Setup for platform"""
     _LOGGER.debug("rf_cover log ")
     config = hass.data[DOMAIN].get("rfConfig")
@@ -53,8 +70,10 @@ def send(hass: HomeAssistant, command: str) -> None:
     """sends commands to GPIP via service"""
     hass.services.call(DOMAIN, SERVICE_NAME, {SERVICE_PAYLOAD_NAME: command}, True)
 
+
 class RFCover(GPIOCon, CoverEntity):
     """RF cover device"""
+
     def __init__(self, config, code, name, device_class) -> None:
         """Initialize the cover device."""
         super().__init__(config)
@@ -96,7 +115,7 @@ class RFCover(GPIOCon, CoverEntity):
     @property
     def name(self) -> str:
         """Return the name of the switch."""
-        return  self._name
+        return self._name
 
     @property
     def unique_id(self) -> str:

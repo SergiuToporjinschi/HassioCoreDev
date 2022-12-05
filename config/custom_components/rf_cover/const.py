@@ -11,7 +11,7 @@ LONG = "long"
 HIGH = "high"
 LOW = "low"
 BIT = "bit"
-
+CONF_DEVICES = "devices"
 SERVICE_NAME = "sendCommand"
 SERVICE_PAYLOAD_NAME = "command"
 SERVICE_STATE_NAME = DOMAIN + ".sending"
