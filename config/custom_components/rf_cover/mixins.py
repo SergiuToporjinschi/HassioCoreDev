@@ -6,7 +6,7 @@ from time import sleep
 
 from homeassistant.helpers.restore_state import RestoreEntity
 
-from .const import *
+from .const import BIT, HIGH, INIT, LONG, LOW, PAUSE, PIN, REPEAT, SHORT, TIME
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class GPIOCon(RestoreEntity):
     _stop = "01010101"
 
     def __init__(self, conf) -> None:
-        _LOGGER.info("rf_cover log ")
+        _LOGGER.info("Rf_cover log ")
         self._pin = conf.get(PIN)
         self._repeat = conf.get(REPEAT)
         self._pause = float(conf.get(PAUSE)) / 1000000
@@ -34,26 +34,26 @@ class GPIOCon(RestoreEntity):
     def send_close(self):
         """Sends command to GPIO"""
         code = self._get_code() + " " + self._close
-        _LOGGER.info("send_close %s", code)
+        _LOGGER.info("Send_close %s", code)
         self._emit_code(code)
         # GPIO.output(self._pin, 1)
 
     def send_open(self):
         """Sends command to GPIO"""
         code = self._get_code() + " " + self._open
-        _LOGGER.info("send_open %s", code)
+        _LOGGER.info("Send_open %s", code)
         self._emit_code(code)
         # GPIO.output(self._pin, 0)
 
     def send_stop(self):
         """Sends command to GPIO"""
         code = self._get_code() + " " + self._stop
-        _LOGGER.info("send_stop %s", code)
+        _LOGGER.info("Send_stop %s", code)
         self._emit_code(code)
 
     def _setup_gpio(self):
         """Initialize GPIO"""
-        _LOGGER.info("rf_cover log ")
+        _LOGGER.info("Rf_cover log ")
         # GPIO.setwarnings(False)
         # # GPIO.setmode(GPIO.BOARD)
         # GPIO.setmode(GPIO.BCM)
