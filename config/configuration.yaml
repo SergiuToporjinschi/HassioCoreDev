@@ -33,14 +33,15 @@ rf_cover:
     time:
       short: 338
       long: 676
-
-cover:
-  - platform: rf_cover
-    code: "10000101 00110001 11111000 10110001"
-    name: "office"
-  - platform: rf_cover
-    code: "10000101 00110001 01010010 10000001"
-    name: "kitchen"
+# cover:
+#   - platform: rf_cover
+#     unique_id: rfCoverOffice
+#     code: "10000101 00110001 11111000 10110001"
+#     name: "office"
+#   - platform: rf_cover
+#     code: "10000101 00110001 01010010 10000001"
+#     unique_id: rfCoverkitchen
+#     name: "kitchen"
 # up: "00010001",
 # down: "00110011",
 # stop: "01010101"

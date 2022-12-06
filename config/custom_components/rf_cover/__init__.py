@@ -4,6 +4,7 @@ import voluptuous as vol
 
 from homeassistant import config_entries, core
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_DEVICES
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 
@@ -47,8 +48,8 @@ CONFIG_SCHEMA = vol.Schema(
 
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
-    _LOGGER.info("add")
-    hass.data.setdefault(DOMAIN, {})
+    """Forward configuration to platform"""
+    _LOGGER.info("Add")
     hass.async_create_task(
         hass.config_entries.async_forward_entry_setup(config_entry, "cover")
     )
@@ -59,12 +60,12 @@ async def async_setup(
     hass: core.HomeAssistant, config: config_entries.ConfigEntry
 ) -> bool:
     """Set up the RFCover component."""
-    _LOGGER.info("rf_cover log %s", SERVICE_NAME)
-    hass.data.setdefault(DOMAIN, {})
+    _LOGGER.info("Initializing %s", SERVICE_NAME)
+    hass.data.setdefault(DOMAIN, config[DOMAIN])
+    hass.data[DOMAIN].update({CONF_DEVICES:[]})
     hass.states.async_set(SERVICE_STATE_NAME, "False")
-    hass.data[DOMAIN]["rfConfig"] = config[DOMAIN]
     # hass.config_entries.async_update_entry(config, unique_id="sss")
-    async def async_handle_sendCommand(call):
+    async def async_handle_send_command(call):
         """handle send command service"""
         command = call.data.get(SERVICE_PAYLOAD_NAME, None)
         ## TODO add send command
@@ -72,5 +73,5 @@ async def async_setup(
         _LOGGER.info("Sending command %s", command)
         hass.states.async_set(SERVICE_STATE_NAME, "False")
 
-    hass.services.async_register(DOMAIN, SERVICE_NAME, async_handle_sendCommand)
+    hass.services.async_register(DOMAIN, SERVICE_NAME, async_handle_send_command)
     return True
