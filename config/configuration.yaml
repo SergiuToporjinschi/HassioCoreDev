@@ -24,6 +24,10 @@ rf_cover:
   pin: 12
   repeat: 3
   pause: 8064
+  commands:
+    open: "00010001"
+    close: "00110011"
+    stop: "01010101"
   init:
     len: 40
     time:

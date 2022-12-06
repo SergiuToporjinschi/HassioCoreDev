@@ -130,8 +130,10 @@ tmp_cache
 
 # python-language-server / Rope
 .ropeproject
+
 /config/.*
 /config/*.db*
 /config/*.log*
 !config/*.yaml
-!**/custom_components/*
+**/custom_components/*
+!**/custom_components/rf*

@@ -6,7 +6,22 @@ from time import sleep
 
 from homeassistant.helpers.restore_state import RestoreEntity
 
-from .const import BIT, HIGH, INIT, LONG, LOW, PAUSE, PIN, REPEAT, SHORT, TIME
+from .const import (
+    BIT,
+    CLOSE,
+    COMMANDS,
+    HIGH,
+    INIT,
+    LONG,
+    LOW,
+    OPEN,
+    PAUSE,
+    PIN,
+    REPEAT,
+    SHORT,
+    STOP,
+    TIME,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -17,9 +32,7 @@ class GPIOCon(RestoreEntity):
     _pause = 8064
     _init = {}
     _bit = {}
-    _open = "00010001"
-    _close = "00110011"
-    _stop = "01010101"
+    _commands = {}
 
     def __init__(self, conf) -> None:
         _LOGGER.info("Rf_cover log ")
@@ -28,26 +41,27 @@ class GPIOCon(RestoreEntity):
         self._pause = float(conf.get(PAUSE)) / 1000000
         self._init = conf.get(INIT)
         self._bit = conf.get(BIT)
+        self._commands = conf.get(COMMANDS)
         self._setup_gpio()
 
 
     def send_close(self):
         """Sends command to GPIO"""
-        code = self._get_code() + " " + self._close
+        code = self._get_code() + " " + self._commands.get(CLOSE)
         _LOGGER.info("Send_close %s", code)
         self._emit_code(code)
         # GPIO.output(self._pin, 1)
 
     def send_open(self):
         """Sends command to GPIO"""
-        code = self._get_code() + " " + self._open
+        code = self._get_code() + " " + self._commands.get(OPEN)
         _LOGGER.info("Send_open %s", code)
         self._emit_code(code)
         # GPIO.output(self._pin, 0)
 
     def send_stop(self):
         """Sends command to GPIO"""
-        code = self._get_code() + " " + self._stop
+        code = self._get_code() + " " + self._commands.get(STOP)
         _LOGGER.info("Send_stop %s", code)
         self._emit_code(code)
 
