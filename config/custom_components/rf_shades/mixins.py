@@ -35,7 +35,7 @@ class GPIOCon(RestoreEntity):
     _commands = {}
 
     def __init__(self, conf) -> None:
-        _LOGGER.info("Rf_cover log ")
+        _LOGGER.info("Rf_shades log ")
         self._pin = conf.get(PIN)
         self._repeat = conf.get(REPEAT)
         self._pause = float(conf.get(PAUSE)) / 1000000
@@ -67,7 +67,7 @@ class GPIOCon(RestoreEntity):
 
     def _setup_gpio(self):
         """Initialize GPIO"""
-        _LOGGER.info("Rf_cover log ")
+        _LOGGER.info("Rf_shades log ")
         # GPIO.setwarnings(False)
         # # GPIO.setmode(GPIO.BOARD)
         # GPIO.setmode(GPIO.BCM)

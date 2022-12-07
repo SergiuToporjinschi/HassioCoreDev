@@ -1,4 +1,4 @@
-DOMAIN = "rf_cover"
+DOMAIN = "rf_shades"
 
 PIN = "pin"
 REPEAT = "repeat"

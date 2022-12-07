@@ -9,7 +9,7 @@ send:
       example: "11010111101"
       selector:
         text:
-# rf_cover:
+# rf_shades:
 #   pin: 12
 #   repeat: 3
 #   pause: 8064
@@ -24,9 +24,9 @@ send:
 #       long: 676
 
 # cover:
-#   - platform: rf_cover
+#   - platform: rf_shades
 #     code: "10000101 00110001 11111000 10110001"
 #     name: "office"
-#   - platform: rf_cover
+#   - platform: rf_shades
 #     code: "10000101 00110001 01010010 10000001"
 #     name: "kitchen"

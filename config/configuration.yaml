@@ -20,7 +20,7 @@ logger:
 
 # demo:
 
-rf_cover:
+rf_shades:
   pin: 12
   repeat: 3
   pause: 8064
@@ -38,11 +38,11 @@ rf_cover:
       short: 338
       long: 676
 # cover:
-#   - platform: rf_cover
+#   - platform: rf_shades
 #     unique_id: rfCoverOffice
 #     code: "10000101 00110001 11111000 10110001"
 #     name: "office"
-#   - platform: rf_cover
+#   - platform: rf_shades
 #     code: "10000101 00110001 01010010 10000001"
 #     unique_id: rfCoverkitchen
 #     name: "kitchen"

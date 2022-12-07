@@ -64,7 +64,7 @@ async def async_setup_platform(
     discovery_info: DiscoveryInfoType,
 ) -> None:
     """Setup for platform (when reading values from config.yaml)"""
-    _LOGGER.debug("Rf_cover log ")
+    _LOGGER.debug("Rf_shades log ")
     config = hass.data[DOMAIN].copy()
     del config[CONF_DEVICES]
     unique_id = config_entry.get(CONF_UNIQUE_ID)

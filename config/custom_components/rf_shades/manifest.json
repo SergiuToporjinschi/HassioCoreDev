@@ -3,9 +3,9 @@
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/user/my_component/",
-  "domain": "rf_cover",
+  "domain": "rf_shades",
   "iot_class": "assumed_state",
-  "name": "RFCover",
+  "name": "RFShades",
   "requirements": ["RPi.GPIO==0.7.1"],
   "version": "1.0.0"
 }
