@@ -58,10 +58,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     """Forward configuration to platform"""
     _LOGGER.info("Add")
     hass.data.setdefault(DOMAIN, {})
-    hass_data = dict(config_entry.data)
-    unsub_options_update_listener = config_entry.add_update_listener(options_update_listener)
-    hass_data["unsub_options_update_listener"] = unsub_options_update_listener
-    hass.data[DOMAIN][config_entry.entry_id] = hass_data
+    config_entry.async_on_unload(config_entry.add_update_listener(options_update_listener))
     hass.async_create_task(
         hass.config_entries.async_forward_entry_setup(config_entry, "cover")
     )
@@ -98,11 +95,4 @@ async def async_unload_entry(hass: core.HomeAssistant, entry: config_entries.Con
             *[hass.config_entries.async_forward_entry_unload(entry, "cover")]
         )
     )
-    # Remove options_update_listener.
-    hass.data[DOMAIN][entry.entry_id]["unsub_options_update_listener"]()
-
-    # Remove config entry from domain.
-    if unload_ok:
-        hass.data[DOMAIN].pop(entry.entry_id)
-
     return unload_ok

@@ -87,6 +87,7 @@ class RFCover(GPIOCon, CoverEntity):
         self._attr_supported_features = (
             CoverEntityFeature.OPEN | CoverEntityFeature.CLOSE | CoverEntityFeature.STOP
         )
+        self._attr_icon = "mdi:blinds"
         self._name = config.get(CONF_NAME)
         self._attr_name = config.get(CONF_NAME)
         self._attr_code = config.get(CONF_CODE)
