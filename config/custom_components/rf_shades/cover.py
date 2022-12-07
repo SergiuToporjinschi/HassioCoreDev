@@ -108,14 +108,14 @@ class RFCover(GPIOCon, CoverEntity):
             CONF_NAME: self._attr_name,
             PIN: self._pin,
             REPEAT: self._repeat,
+            PAUSE: self._pause * 1000000,
             COMMANDS + "_" + OPEN: self._commands.get(OPEN),
             COMMANDS + "_" + CLOSE: self._commands.get(CLOSE),
             COMMANDS + "_" + STOP: self._commands.get(STOP),
-            INIT + "_" + LEN: self._init.get(LEN),
-            INIT + "_" + TIME + "_" + HIGH: self._init.get(TIME).get(HIGH),
-            INIT + "_" + TIME + "_" + LOW: self._init.get(TIME).get(LOW),
-            BIT + "_" + TIME + "_" + LONG: self._bit.get(TIME).get(LONG),
-            BIT + "_" + TIME + "_" + SHORT: self._bit.get(TIME).get(SHORT)
+            INIT + "_" + TIME + "_" + LOW: self._init_time_low * 1000000,
+            INIT + "_" + TIME + "_" + HIGH: self._init_time_high * 1000000,
+            BIT + "_" + TIME + "_" + SHORT: self._bit_time_short * 1000000,
+            BIT + "_" + TIME + "_" + LONG: self._bit_time_long * 1000000
         }
 
     async def async_open_cover(self, **kwargs: Any) -> None:
