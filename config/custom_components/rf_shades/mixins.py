@@ -49,7 +49,6 @@ class GPIOCon(RestoreEntity):
 
         self._commands = conf.get(COMMANDS)
         self._convert_times_in_sec()
-        self._setup_gpio()
 
     def _convert_times_in_sec(self):
         self._pause = float(self._pause) / 1000000
